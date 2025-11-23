@@ -77,7 +77,7 @@ python manage.py migrate
 >Executes the migration files, creating or updating the actual database schema in SQLite.
 
 3. Create an admin (superuser) account:
-4. 
+
 ```
 python manage.py createsuperuser
 ```

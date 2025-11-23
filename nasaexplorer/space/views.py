@@ -5,6 +5,10 @@ from django.urls import reverse
 from django.views import generic
 
 from .models import Choice, Question
+from django.shortcuts import render
+
+def homepage(request):
+    return render(request, "space/home.html")
 
 
 class IndexView(generic.ListView):
