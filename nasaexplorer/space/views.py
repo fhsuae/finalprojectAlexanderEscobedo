@@ -27,7 +27,7 @@ class DetailView(generic.DetailView):
 
 class ResultsView(generic.DetailView):
     model = Question
-    template_name = "space/results.html"
+    template_name = "space/image_results.html"
 
 def index(request):
     latest_question_list = Question.objects.order_by("-pub_date")[:5]
@@ -42,7 +42,7 @@ def detail(request, question_id):
 
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, "space/results.html", {"question": question})
+    return render(request, "space/image_results.html", {"question": question})
 
 
 def vote(request, question_id):
