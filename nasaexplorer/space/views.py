@@ -13,10 +13,9 @@ def search(request):
 
 def homepage(request):
     apod_data = get_apod()
-    context = {
-        "apod": apod_data,
-    }
+    context = {"apod": apod_data}
     return render(request, "home.html", context)
+
 
 class IndexView(generic.ListView):
     template_name = "space/index.html"
