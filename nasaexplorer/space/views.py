@@ -5,11 +5,12 @@ from django.urls import reverse
 from django.views import generic
 
 from .models import Choice, Question
-from django.shortcuts import render
+
+def search(request):
+    return render(request, "space/search.html")
 
 def homepage(request):
-    return render(request, "space/home.html")
-
+    return render(request, "home.html")  # <-- Fixed to root templates folder
 
 class IndexView(generic.ListView):
     template_name = "space/index.html"
@@ -19,11 +20,9 @@ class IndexView(generic.ListView):
         """Return the last five published questions."""
         return Question.objects.order_by("-pub_date")[:5]
 
-
 class DetailView(generic.DetailView):
     model = Question
     template_name = "space/detail.html"
-
 
 class ResultsView(generic.DetailView):
     model = Question
@@ -34,16 +33,13 @@ def index(request):
     context = {"latest_question_list": latest_question_list}
     return render(request, "space/index.html", context)
 
-
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, "space/detail.html", {"question": question})
 
-
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, "space/image_results.html", {"question": question})
-
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
