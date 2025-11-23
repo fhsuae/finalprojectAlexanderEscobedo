@@ -1,8 +1,19 @@
 {% extends "base.html" %}
-
-{% block title %}Home{% endblock %}
-
 {% block content %}
-<h1>NASA Space Image Explorer</h1>
-<p>Welcome! Use the navigation to explore NASA images.</p>
+  <h1>NASA Astronomy Picture of the Day</h1>
+
+  {% if apod %}
+    <h2>{{ apod.title }}</h2>
+    <p><em>{{ apod.date }}</em></p>
+
+    {% if apod.media_type == "image" %}
+      <img src="{{ apod.url }}" alt="{{ apod.title }}" style="max-width:100%; height:auto;">
+    {% elif apod.media_type == "video" %}
+      <iframe width="560" height="315" src="{{ apod.url }}" frameborder="0" allowfullscreen></iframe>
+    {% endif %}
+
+    <p>{{ apod.explanation }}</p>
+  {% else %}
+    <p>Sorry, NASA APOD data is not available at the moment.</p>
+  {% endif %}
 {% endblock %}

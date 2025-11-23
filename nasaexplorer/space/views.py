@@ -5,12 +5,18 @@ from django.urls import reverse
 from django.views import generic
 
 from .models import Choice, Question
+from django.shortcuts import render
+from .utils import get_apod
 
 def search(request):
     return render(request, "space/search.html")
 
 def homepage(request):
-    return render(request, "home.html")  # <-- Fixed to root templates folder
+    apod_data = get_apod()
+    context = {
+        "apod": apod_data,
+    }
+    return render(request, "home.html", context)
 
 class IndexView(generic.ListView):
     template_name = "space/index.html"
