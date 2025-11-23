@@ -34,49 +34,140 @@ Before running the project, ensure you have:
 * pip package manager
  
 ### Installing
- 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+
+1. Clone the repository:
+
+```
+git clone https://github.com/fhsuae/miniproject4AlexanderEscobedo.git
+```
+
+2. Create and activate a virtual environment:
+
+Windows:
+
+```
+python -m venv venv
+venv\Scripts\activate
+```
+macOS/Linux:
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+3. Install dependencies:
+
+```
+pip install -r requirements.txt
+```
  
 ### Executing program
- 
-* How to run the program
-* Step-by-step bullets
+#### Initialize the database:
+
+Ensure your working directory is the main Django project folder (nasaexplorer/) 
+1. Generate database migration files:
 ```
-code blocks for commands
+python manage.py makemigrations
 ```
- 
-## Help
- 
-Any advise for common problems or issues.
+> Django inspects your models and creates migration files — these are instructions for creating or updating database tables.
+2. Apply migrations to the database:
+
 ```
-command to run if program contains helper info
+python manage.py migrate
 ```
+>Executes the migration files, creating or updating the actual database schema in SQLite.
+
+3. Create an admin (superuser) account:
+4. 
+```
+python manage.py createsuperuser
+```
+> Creates a new administrative user to access Django’s built-in admin dashboard. You’ll be prompted for a username, email, and password.
+> 
+4. Start the Django development server:
+
+```
+python manage.py runserver
+```
+
+>Starts Django’s built-in web server so you can view and interact with your app locally.
+
+Open your web browser and go to:
+
+```
+http://127.0.0.1:8000/
+```
+
+
+### Admin Access 
+
+To access the Django admin dashboard:
+
+1. Go to:
+
+```
+http://127.0.0.1:8000/admin/
+```
+
+2. Log in using the credentials from:
+
+```
+python manage.py createsuperuser
+```
+
+You can manage:
+
+* example 1 
+* example 2 
+* example 3
+
+### Using an IDE (Optional)
+
+If you are using an IDE like PyCharm or VS Code:
+
+* Open the project folder
+* Go to Edit Configurations → Add New Configuration → Django Server.
+* Set working directory to the project folder
+* Enable Django Support (if using Pycharm) and set root point to nasaexplorer directory
+* Point to settings.py file in nasaexplorer/mysite/settings.py
+* Set Manage script to manage.py file in nasaexplorer/manage.py
+* Click the Run ▶️ button to start the development server.
+
+This lets you run and debug the Django app with one click.
+
+If you are using another program that utilizes port 8000, you may change the port number by editing configurations and entering a port number that is not in use (8001 for example).
+
+You may also use this command:
+
+```
+python manage.py runserver 8001
+```
+
+### Project Pages 
+
+* **Home Page**: List what it does
+* **example 1**: List what it does
+* **example 2**: List what it does
+* **example 3**: Lit what it does
+* **example 4**: List wat it does
+* **Login / Signup**: List what it doe
+
  
 ## Authors
  
-Contributors names and contact info
- 
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
+Alexander Escobedo 
  
 ## Version History
- 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
+
 * 0.1
     * Initial Release
- 
-## License
- 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
- 
+
 ## Acknowledgments
- 
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+
+* [Django Documentation](https://docs.djangoproject.com/en/5.2/)
+* [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/getting-started/download/)
+* [The Official Django Tutorial](https://docs.djangoproject.com/en/5.2/intro/tutorial01/) - Project structure adapted from this tutorial (Django version 5.2)
+* [SQLite Documentation](https://sqlite.org/docs.html)
+
+--- list  all the nasa APIs used and specific bootstrap links
+* * [SQLite Documentation](https://sqlite.org/docs.html) - list
+* * [SQLite Documentation](https://sqlite.org/docs.html)
