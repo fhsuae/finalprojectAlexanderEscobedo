@@ -3,7 +3,6 @@ from . import views
 
 app_name = "space"
 urlpatterns = [
-    path("search/", views.search, name="search"),
     path('', views.homepage, name='homepage'),
     path("mars-gallery/", views.MarsGalleryView.as_view(), name="mars_gallery"),
     path("", views.IndexView.as_view(), name="index"),

@@ -7,10 +7,6 @@ from django.views import generic
 from .models import Choice, Question
 from .utils import get_apod, get_mars_rover_photos
 from django.views import View
-from django.shortcuts import render
-
-def search(request):
-    return render(request, "space/search.html")
 
 def homepage(request):
     apod_data = get_apod()
@@ -23,11 +19,21 @@ class MarsGalleryView(View):
     def get(self, request):
         rover = request.GET.get('rover', 'curiosity')
         earth_date = request.GET.get('earth_date')
-        photos = get_mars_rover_photos(rover, earth_date)
+
+        if not earth_date:
+            photos = []
+            error_message = "Please select a date."
+        else:
+            photos = get_mars_rover_photos(rover, earth_date)
+            error_message = None
+            if not photos:
+                error_message = f"No photos found for {rover.title()} on {earth_date}."
+
         context = {
             'photos': photos,
             'rover': rover,
             'earth_date': earth_date,
+            'error_message': error_message,
         }
         return render(request, 'space/mars_gallery.html', context)
 
@@ -78,7 +84,4 @@ def vote(request, question_id):
     else:
         selected_choice.votes = F("votes") + 1
         selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
         return HttpResponseRedirect(reverse("space:results", args=(question.id,)))

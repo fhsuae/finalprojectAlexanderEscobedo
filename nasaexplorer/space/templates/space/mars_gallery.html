@@ -17,6 +17,12 @@
   <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
+{% if error_message %}
+  <div class="alert alert-warning" role="alert">
+    {{ error_message }}
+  </div>
+{% endif %}
+
 {% if photos %}
   <div class="row">
     {% for photo in photos %}
@@ -33,8 +39,6 @@
       </div>
     {% endfor %}
   </div>
-{% else %}
-  <p>No photos found for these parameters.</p>
 {% endif %}
 
 {% endblock %}
