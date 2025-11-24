@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Mars Rover Photos Gallery</h1>
+
+<form method="get" class="mb-3">
+  <label for="rover">Rover:</label>
+  <select name="rover" id="rover" class="form-select" style="width:auto; display:inline-block; margin-right:1em;">
+    <option value="curiosity" {% if rover == "curiosity" %}selected{% endif %}>Curiosity</option>
+    <option value="opportunity" {% if rover == "opportunity" %}selected{% endif %}>Opportunity</option>
+    <option value="spirit" {% if rover == "spirit" %}selected{% endif %}>Spirit</option>
+  </select>
+
+  <label for="earth_date">Earth Date:</label>
+  <input type="date" name="earth_date" id="earth_date" value="{{ earth_date }}" class="form-control" style="width:auto; display:inline-block; margin-right:1em;">
+
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+{% if photos %}
+  <div class="row">
+    {% for photo in photos %}
+      <div class="col-md-3 mb-3">
+        <div class="card">
+          <img src="{{ photo.img_src }}" class="card-img-top" alt="Mars Rover Photo">
+          <div class="card-body">
+            <p class="card-text">
+              Camera: {{ photo.camera.full_name }}<br>
+              Earth Date: {{ photo.earth_date }}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No photos found for these parameters.</p>
+{% endif %}
+
+{% endblock %}

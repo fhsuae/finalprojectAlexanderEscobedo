@@ -5,16 +5,31 @@ from django.urls import reverse
 from django.views import generic
 
 from .models import Choice, Question
+from .utils import get_apod, get_mars_rover_photos
+from django.views import View
 from django.shortcuts import render
-from .utils import get_apod
 
 def search(request):
     return render(request, "space/search.html")
 
 def homepage(request):
     apod_data = get_apod()
-    context = {"apod": apod_data}
+    context = {
+        "apod": apod_data,
+    }
     return render(request, "home.html", context)
+
+class MarsGalleryView(View):
+    def get(self, request):
+        rover = request.GET.get('rover', 'curiosity')
+        earth_date = request.GET.get('earth_date')
+        photos = get_mars_rover_photos(rover, earth_date)
+        context = {
+            'photos': photos,
+            'rover': rover,
+            'earth_date': earth_date,
+        }
+        return render(request, 'space/mars_gallery.html', context)
 
 
 class IndexView(generic.ListView):
