@@ -2,11 +2,10 @@ from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-from django.views import generic
+from django.views import generic, View
 
 from .models import Choice, Question
-from .utils import get_apod, get_mars_rover_photos
-from django.views import View
+from .utils import get_apod, get_mars_rover_photos, get_epic_images
 
 def homepage(request):
     apod_data = get_apod()
@@ -19,24 +18,31 @@ class MarsGalleryView(View):
     def get(self, request):
         rover = request.GET.get('rover', 'curiosity')
         earth_date = request.GET.get('earth_date')
+        sol = request.GET.get('sol')
 
-        if not earth_date:
-            photos = []
-            error_message = "Please select a date."
-        else:
-            photos = get_mars_rover_photos(rover, earth_date)
-            error_message = None
-            if not photos:
-                error_message = f"No photos found for {rover.title()} on {earth_date}."
+        # Convert sol to int if provided, else None
+        if sol:
+            try:
+                sol = int(sol)
+            except ValueError:
+                sol = None
 
+        photos = get_mars_rover_photos(rover, earth_date, sol)
         context = {
             'photos': photos,
             'rover': rover,
             'earth_date': earth_date,
-            'error_message': error_message,
+            'sol': sol,
         }
         return render(request, 'space/mars_gallery.html', context)
 
+class EpicGalleryView(View):
+    def get(self, request):
+        images = get_epic_images()
+        context = {
+            "images": images,
+        }
+        return render(request, "space/epic_gallery.html", context)
 
 class IndexView(generic.ListView):
     template_name = "space/index.html"

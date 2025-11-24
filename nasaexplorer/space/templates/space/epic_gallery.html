@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>NASA EPIC Earth Images</h1>
+
+{% if images %}
+  <div class="row">
+    {% for img in images %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="{{ img.image_url }}" alt="{{ img.caption }}" class="card-img-top" />
+          <div class="card-body">
+            <p class="card-text"><strong>Caption:</strong> {{ img.caption }}</p>
+            <p class="card-text"><strong>Date:</strong> {{ img.date }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No EPIC images found.</p>
+{% endif %}
+{% endblock %}

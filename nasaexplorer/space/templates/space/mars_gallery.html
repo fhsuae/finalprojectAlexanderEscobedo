@@ -14,14 +14,11 @@
   <label for="earth_date">Earth Date:</label>
   <input type="date" name="earth_date" id="earth_date" value="{{ earth_date }}" class="form-control" style="width:auto; display:inline-block; margin-right:1em;">
 
+  <label for="sol">Sol (Mars day):</label>
+  <input type="number" name="sol" id="sol" value="{{ sol }}" min="0" class="form-control" style="width:auto; display:inline-block; margin-right:1em;">
+
   <button type="submit" class="btn btn-primary">Search</button>
 </form>
-
-{% if error_message %}
-  <div class="alert alert-warning" role="alert">
-    {{ error_message }}
-  </div>
-{% endif %}
 
 {% if photos %}
   <div class="row">
@@ -39,6 +36,8 @@
       </div>
     {% endfor %}
   </div>
+{% else %}
+  <p>No photos found for these parameters.</p>
 {% endif %}
 
 {% endblock %}
