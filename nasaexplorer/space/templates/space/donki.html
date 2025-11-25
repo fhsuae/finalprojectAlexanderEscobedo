@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}DONKI Space Weather{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Recent Solar Flares (DONKI)</h2>
+
+{% if not events %}
+    <p>No solar flare data available at this time.</p>
+{% else %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Class</th>
+                    <th>Begin</th>
+                    <th>Peak</th>
+                    <th>End</th>
+                    <th>Source Location</th>
+                    <th>Active Region</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in events %}
+                <tr>
+                    <td>{{ e.id }}</td>
+                    <td>{{ e.class }}</td>
+                    <td>{{ e.begin }}</td>
+                    <td>{{ e.peak }}</td>
+                    <td>{{ e.end }}</td>
+                    <td>{{ e.source }}</td>
+                    <td>{{ e.active_region }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

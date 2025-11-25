@@ -20,6 +20,37 @@ def get_apod():
         print(f"Error fetching APOD: {e}")
         return None
 
+
+def get_donki_events():
+    """
+    Get recent solar flares from NASA DONKI Space Weather API.
+    """
+    url = f"https://api.nasa.gov/DONKI/FLR?api_key={NASA_API_KEY}"
+
+    try:
+        response = requests.get(url, timeout=8)
+        response.raise_for_status()
+        data = response.json()
+
+        events = []
+        for item in data[:30]:  # limit for UI sanity
+            events.append({
+                "id": item.get("flrID"),
+                "class": item.get("classType"),
+                "begin": item.get("beginTime"),
+                "peak": item.get("peakTime"),
+                "end": item.get("endTime"),
+                "source": item.get("sourceLocation"),
+                "active_region": item.get("activeRegionNum"),
+            })
+
+        return events
+
+    except Exception as e:
+        print(f"Error fetching DONKI data: {e}")
+        return []
+
+
 def get_asteroids():
     """
     Fetch a list of near-Earth asteroids approaching Earth today.

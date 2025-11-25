@@ -8,6 +8,14 @@ def homepage(request):
     context = {"apod": apod_data}
     return render(request, "home.html", context)
 
+class DONKIView(View):
+    def get(self, request):
+        from .utils import get_donki_events
+        events = get_donki_events()
+        context = {"events": events}
+        return render(request, "space/donki.html", context)
+
+
 class AsteroidView(View):
     def get(self, request):
         from .utils import get_asteroids
