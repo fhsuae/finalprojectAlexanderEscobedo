@@ -3,14 +3,18 @@
 {% block content %}
 <h1>NASA EPIC Earth Images</h1>
 
+<p>
+    These images were taken by NASA's EPIC camera onboard the NOAA DSCOVR spacecraft.
+    EPIC provides near-real-time images of the entire sunlit Earth.
+</p>
+
 {% if images %}
   <div class="row">
     {% for img in images %}
       <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="{{ img.image_url }}" alt="{{ img.caption }}" class="card-img-top" />
+        <div class="card shadow-sm">
+          <img src="{{ img.image_url }}" alt="Earth image taken on {{ img.date }}" class="card-img-top" />
           <div class="card-body">
-            <p class="card-text"><strong>Caption:</strong> {{ img.caption }}</p>
             <p class="card-text"><strong>Date:</strong> {{ img.date }}</p>
           </div>
         </div>

@@ -20,6 +20,46 @@ def get_apod():
         print(f"Error fetching APOD: {e}")
         return None
 
+def get_asteroids():
+    """
+    Fetch a list of near-Earth asteroids approaching Earth today.
+    """
+    url = (
+        f"https://api.nasa.gov/neo/rest/v1/feed/today?detailed=true&api_key={NASA_API_KEY}"
+    )
+
+    try:
+        response = requests.get(url, timeout=8)
+        response.raise_for_status()
+        data = response.json()
+
+        # NeoWs returns: near_earth_objects: { "YYYY-MM-DD": [asteroids...] }
+        date_key = list(data["near_earth_objects"].keys())[0]
+        raw_asteroids = data["near_earth_objects"][date_key]
+
+        asteroids = []
+        for obj in raw_asteroids[:40]:  # limit for readability
+            approach = obj["close_approach_data"][0]
+
+            asteroids.append({
+                "name": obj.get("name"),
+                "id": obj.get("id"),
+                "hazardous": obj.get("is_potentially_hazardous_asteroid"),
+                "magnitude": obj.get("absolute_magnitude_h"),
+                "diameter_min": obj["estimated_diameter"]["meters"]["estimated_diameter_min"],
+                "diameter_max": obj["estimated_diameter"]["meters"]["estimated_diameter_max"],
+                "velocity": approach.get("relative_velocity", {}).get("kilometers_per_hour"),
+                "miss_distance": approach.get("miss_distance", {}).get("kilometers"),
+                "orbiting_body": approach.get("orbiting_body"),
+            })
+
+        return asteroids
+
+    except Exception as e:
+        print(f"Error fetching asteroid data: {e}")
+        return []
+
+
 def get_epic_images():
     url = f"https://epic.gsfc.nasa.gov/api/natural"
     try:

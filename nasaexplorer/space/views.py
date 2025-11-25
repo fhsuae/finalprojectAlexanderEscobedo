@@ -8,6 +8,14 @@ def homepage(request):
     context = {"apod": apod_data}
     return render(request, "home.html", context)
 
+class AsteroidView(View):
+    def get(self, request):
+        from .utils import get_asteroids
+        asteroids = get_asteroids()
+        context = {"asteroids": asteroids}
+        return render(request, "space/asteroids.html", context)
+
+
 class EpicGalleryView(View):
     def get(self, request):
         images = get_epic_images()

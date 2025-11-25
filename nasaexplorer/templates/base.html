@@ -33,21 +33,24 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-    <a class="nav-link" href="{% url 'space:exoplanets' %}">
-        Exoplanets
+                        <a class="nav-link" href="{% url 'space:homepage' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'space:exoplanets' %}">
+                            Exoplanets
+                        </a>
+                        <li class="nav-item">
+    <a class="nav-link" href="{% url 'space:asteroids' %}">
+        Asteroids (NeoWs)
     </a>
 </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'space:homepage' %}">Home</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'space:image_search' %}">
                             Image Search
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'space:epic_gallery' %}">
                             EPIC Gallery
@@ -83,8 +86,10 @@
                 </div>
 
                 <div class="modal-body">
-                    This project provides access to NASA’s space images through the EPIC satellite
-                    and NASA’s Image & Video Library. Explore Earth, space missions, and more.
+                    This project provides a centralized portal to explore NASA’s public space imagery and data.
+                    Users can view the Astronomy Picture of the Day, browse Earth images from the EPIC satellite,
+                    search the NASA Image & Video Library, and explore Exoplanet data. The goal is to make space science accessible
+                    and engaging through a clean, educational interface.
                 </div>
 
                 <div class="modal-footer">
