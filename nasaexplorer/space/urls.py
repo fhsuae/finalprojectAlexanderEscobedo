@@ -5,13 +5,6 @@ app_name = "space"
 
 urlpatterns = [
     path('', views.homepage, name='homepage'),
-
-    path('mars-gallery/', views.MarsGalleryView.as_view(), name='mars_gallery'),
     path('epic-gallery/', views.EpicGalleryView.as_view(), name='epic_gallery'),
     path('search-images/', views.NasaImageSearchView.as_view(), name='image_search'),
-
-    # Question-related URLs without 'questions/' prefix
-    path('<int:pk>/', views.DetailView.as_view(), name='detail'),
-    path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
-    path('index/', views.IndexView.as_view(), name='index'),
 ]
