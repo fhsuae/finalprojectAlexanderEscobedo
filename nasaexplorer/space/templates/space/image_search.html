@@ -24,6 +24,19 @@
               <p class="card-text">{{ item.description|truncatechars:150 }}</p>
             {% endif %}
             <a href="{{ item.full_image }}" target="_blank" class="btn btn-sm btn-secondary">View Full Image</a>
+
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'space:add_favorite' %}" class="mt-2">
+                {% csrf_token %}
+                <input type="hidden" name="image_id" value="{{ item.full_image }}" />
+                <input type="hidden" name="image_title" value="{{ item.title }}" />
+                <input type="hidden" name="image_url" value="{{ item.thumbnail }}" />
+                <button type="submit" class="btn btn-sm btn-outline-primary">
+                  Add to Favorites
+                </button>
+              </form>
+            {% endif %}
+
           </div>
         </div>
       </div>

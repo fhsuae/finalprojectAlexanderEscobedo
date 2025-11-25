@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}My Favorites{% endblock %}
+
+{% block content %}
+<h2>My Favorite Images</h2>
+
+{% if favorites %}
+  <div class="row">
+    {% for fav in favorites %}
+      <div class="col-md-4 mb-3">
+        <div class="card">
+          <img src="{{ fav.image_url }}" alt="{{ fav.image_title }}" class="card-img-top" />
+          <div class="card-body">
+            <h5 class="card-title">{{ fav.image_title }}</h5>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>You have no favorite images yet.</p>
+{% endif %}
+{% endblock %}

@@ -39,16 +39,14 @@
                         <a class="nav-link" href="{% url 'space:exoplanets' %}">
                             Exoplanets
                         </a>
-                        <li class="nav-item">
-    <a class="nav-link" href="{% url 'space:asteroids' %}">
-        Asteroids (NeoWs)
-    </a>
-</li>
+                    </li>
                     <li class="nav-item">
-    <a class="nav-link" href="{% url 'space:donki' %}">Space Weather (DONKI)</a>
-</li>
-
-
+                        <a class="nav-link" href="{% url 'space:asteroids' %}">
+                            Asteroids (NeoWs)
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'space:donki' %}">Space Weather (DONKI)</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'space:image_search' %}">
@@ -62,10 +60,28 @@
                     </li>
                 </ul>
 
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'space:favorites' %}">My Favorites</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'space:logout' %}">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'space:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'space:signup' %}">Sign Up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+
                 <!-- Info Modal Button -->
                 <button
                     type="button"
-                    class="btn btn-primary btn-sm"
+                    class="btn btn-primary btn-sm ms-3"
                     data-bs-toggle="modal"
                     data-bs-target="#infoModal"
                 >

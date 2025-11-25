@@ -16,6 +16,19 @@
           <img src="{{ img.image_url }}" alt="Earth image taken on {{ img.date }}" class="card-img-top" />
           <div class="card-body">
             <p class="card-text"><strong>Date:</strong> {{ img.date }}</p>
+
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'space:add_favorite' %}">
+                {% csrf_token %}
+                <input type="hidden" name="image_id" value="{{ img.image_url }}" />
+                <input type="hidden" name="image_title" value="EPIC Earth Image - {{ img.date }}" />
+                <input type="hidden" name="image_url" value="{{ img.image_url }}" />
+                <button type="submit" class="btn btn-sm btn-outline-primary mt-2">
+                  Add to Favorites
+                </button>
+              </form>
+            {% endif %}
+
           </div>
         </div>
       </div>
