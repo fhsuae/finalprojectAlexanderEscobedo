@@ -1,18 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
-from .utils import get_apod, get_epic_images, search_nasa_images
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-
-
+from .models import Favorite
+from .utils import get_apod, get_epic_images, search_nasa_images
 
 def homepage(request):
     apod_data = get_apod()
     context = {"apod": apod_data}
     return render(request, "home.html", context)
-
 
 def signup(request):
     if request.method == "POST":
@@ -25,12 +22,12 @@ def signup(request):
         form = UserCreationForm()
     return render(request, "registration/signup.html", {"form": form})
 
-
-
+@login_required
 @login_required
 def favorites(request):
     favs = Favorite.objects.filter(user=request.user)
-    return render(request, "favorites.html", {"favorites": favs})
+    return render(request, "space/favorites.html", {"favorites": favs})
+
 
 @login_required
 def add_favorite(request):
@@ -53,14 +50,12 @@ class DONKIView(View):
         context = {"events": events}
         return render(request, "space/donki.html", context)
 
-
 class AsteroidView(View):
     def get(self, request):
         from .utils import get_asteroids
         asteroids = get_asteroids()
         context = {"asteroids": asteroids}
         return render(request, "space/asteroids.html", context)
-
 
 class EpicGalleryView(View):
     def get(self, request):
@@ -81,4 +76,3 @@ class ExoplanetView(View):
         planets = get_exoplanets()
         context = {"planets": planets}
         return render(request, "space/exoplanets.html", context)
-
