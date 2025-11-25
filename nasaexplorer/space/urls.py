@@ -7,4 +7,6 @@ urlpatterns = [
     path('', views.homepage, name='homepage'),
     path('epic-gallery/', views.EpicGalleryView.as_view(), name='epic_gallery'),
     path('search-images/', views.NasaImageSearchView.as_view(), name='image_search'),
+    path("exoplanets/", views.ExoplanetView.as_view(), name="exoplanets"),
 ]
+

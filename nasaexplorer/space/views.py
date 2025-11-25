@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from .utils import get_apod, get_epic_images, search_nasa_images
 
+
 def homepage(request):
     apod_data = get_apod()
     context = {"apod": apod_data}
@@ -19,3 +20,11 @@ class NasaImageSearchView(View):
         results = search_nasa_images(query) if query else []
         context = {"query": query, "results": results}
         return render(request, "space/image_search.html", context)
+
+class ExoplanetView(View):
+    def get(self, request):
+        from .utils import get_exoplanets
+        planets = get_exoplanets()
+        context = {"planets": planets}
+        return render(request, "space/exoplanets.html", context)
+

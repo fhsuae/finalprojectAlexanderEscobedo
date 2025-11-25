@@ -81,3 +81,36 @@ def search_nasa_images(query):
     except Exception as e:
         print(f"Error searching NASA Image Library: {e}")
         return []
+
+def get_exoplanets(limit=50):
+    """
+    Fetches basic exoplanet data from NASA’s Exoplanet Archive API.
+    """
+    url = (
+        "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query="
+        "select+pl_name,hostname,disc_year,pl_rade,pl_orbper,discoverymethod"
+        "+from+ps&format=json"
+    )
+
+    try:
+        response = requests.get(url, timeout=8)
+        response.raise_for_status()
+        data = response.json()
+
+        planets = []
+        for item in data[:limit]:  # limit results for performance
+            planets.append({
+                "name": item.get("pl_name"),
+                "host": item.get("hostname"),
+                "year": item.get("disc_year"),
+                "radius": item.get("pl_rade"),
+                "period": item.get("pl_orbper"),
+                "method": item.get("discoverymethod"),
+            })
+
+        return planets
+
+    except Exception as e:
+        print(f"Error fetching Exoplanet data: {e}")
+        return []
+
