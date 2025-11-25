@@ -3,19 +3,59 @@
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}NASA Explorer{% endblock %}</title>
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    />
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
-            <a class="navbar-brand" href="{% url 'space:homepage' %}">NASA Explorer</a>
-            <div>
-                <a class="nav-link d-inline" href="{% url 'space:homepage' %}">Home</a> |
-                <a class="nav-link d-inline" href="{% url 'space:mars_gallery' %}">Search</a> |
-                <a class="nav-link d-inline" href="{% url 'space:epic_gallery' %}">EPIC Gallery</a> |
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#infoModal">
+            <a class="navbar-brand fw-bold" href="{% url 'space:homepage' %}">
+                NASA Explorer
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'space:homepage' %}">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'space:image_search' %}">
+                            Image Search
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'space:epic_gallery' %}">
+                            EPIC Gallery
+                        </a>
+                    </li>
+                </ul>
+
+                <!-- Info Modal Button -->
+                <button
+                    type="button"
+                    class="btn btn-primary btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#infoModal"
+                >
                     Info
                 </button>
             </div>
@@ -27,25 +67,36 @@
         {% endblock %}
     </main>
 
-    <!-- Modal -->
+    <!-- Info Modal -->
     <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="infoModalLabel">About NASA Explorer</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            This project provides easy access to NASA's space images and mission info, all in one place.
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel">About NASA Explorer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    This project provides access to NASA’s space images through the EPIC satellite
+                    and NASA’s Image & Video Library. Explore Earth, space missions, and more.
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
-    <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    ></script>
 </body>
 </html>

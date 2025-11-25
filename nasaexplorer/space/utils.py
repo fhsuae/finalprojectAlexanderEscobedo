@@ -72,32 +72,72 @@ def get_mars_rover_photos(rover='curiosity', earth_date=None, sol=None):
         return []
 
 
+def search_nasa_images(query):
+    """
+    Search the NASA Image and Video Library API.
+    Returns a list of image items with title, description, and thumbnail/full URLs.
+    """
+    if not query:
+        return []
+
+    url = "https://images-api.nasa.gov/search"
+    params = {"q": query, "media_type": "image"}
+
+    try:
+        response = requests.get(url, params=params, timeout=5)
+        response.raise_for_status()
+        data = response.json()
+
+        items = data.get("collection", {}).get("items", [])
+        results = []
+
+        for item in items:
+            data_list = item.get("data", [])
+            links_list = item.get("links", [])
+
+            if not data_list or not links_list:
+                continue
+
+            info = data_list[0]
+            link = links_list[0]
+
+            results.append({
+                "title": info.get("title"),
+                "description": info.get("description"),
+                "date_created": info.get("date_created"),
+                "thumbnail": link.get("href"),
+                "full_image": link.get("href"),
+            })
+
+        return results
+
+    except Exception as e:
+        print(f"Error searching NASA Image Library: {e}")
+        return []
+
+
 def get_epic_images():
     """
-    Fetches the latest EPIC natural color images from NASA API.
-    Returns a list of images with URLs and metadata.
+    Fetches EPIC (Earth Polychromatic Imaging Camera) natural color images.
+    Returns a list of image dicts with URL and metadata.
     """
-    url = f"https://api.nasa.gov/EPIC/api/natural?api_key={NASA_API_KEY}"
+    url = f"https://api.nasa.gov/EPIC/api/natural/images?api_key={NASA_API_KEY}"
     try:
         response = requests.get(url, timeout=5)
         response.raise_for_status()
         data = response.json()
-
-        # Build full image URLs from date and image name
         images = []
         for item in data:
-            date_str = item['date'].split()[0]  # e.g. "2023-11-01"
-            date_path = date_str.replace("-", "/")  # "2023/11/01"
+            date_str = item['date'].split()[0].replace('-', '/')
             image_name = item['image']
-            image_url = f"https://api.nasa.gov/EPIC/archive/natural/{date_path}/png/{image_name}.png?api_key={NASA_API_KEY}"
+            image_url = f"https://epic.gsfc.nasa.gov/archive/natural/{date_str}/png/{image_name}.png"
             images.append({
-                "caption": item.get("caption"),
+                "identifier": item['identifier'],
+                "caption": item.get('caption', ''),
+                "date": item['date'],
                 "image_url": image_url,
-                "date": item.get("date"),
-                "identifier": item.get("identifier"),
             })
         return images
-
     except (requests.RequestException, ValueError) as e:
         print(f"Error fetching EPIC images: {e}")
         return []

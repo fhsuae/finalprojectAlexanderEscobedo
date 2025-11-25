@@ -24,3 +24,4 @@ urlpatterns = [
     path("space/", include("space.urls")),
     path("admin/", admin.site.urls),
 ]
+

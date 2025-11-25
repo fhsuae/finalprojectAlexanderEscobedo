@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}NASA Image Search{% endblock %}
+
+{% block content %}
+
+<h1>NASA Image & Video Library Search</h1>
+
+<form method="get" class="mb-4">
+  <input type="text" name="q" placeholder="Search (e.g. Mars, Galaxy, Apollo)" value="{{ query }}"
+         class="form-control" style="max-width: 350px; display:inline-block;">
+  <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+{% if results %}
+  <div class="row">
+    {% for item in results %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <img src="{{ item.thumbnail }}" class="card-img-top" alt="{{ item.title }}">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.title }}</h5>
+            {% if item.description %}
+              <p class="card-text">{{ item.description|truncatechars:150 }}</p>
+            {% endif %}
+            <a href="{{ item.full_image }}" target="_blank" class="btn btn-sm btn-secondary">View Full Image</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% elif query %}
+  <p>No images found for "{{ query }}". Try a different search.</p>
+{% endif %}
+
+{% endblock %}
