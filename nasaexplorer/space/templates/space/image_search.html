@@ -12,9 +12,9 @@
   <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
-{% if results %}
+{% if page_obj %}
   <div class="row">
-    {% for item in results %}
+    {% for item in page_obj %}
       <div class="col-md-4 mb-4">
         <div class="card">
           <img src="{{ item.thumbnail }}" class="card-img-top" alt="{{ item.title }}">
@@ -42,6 +42,35 @@
       </div>
     {% endfor %}
   </div>
+
+  <!-- Pagination controls -->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            &laquo; Previous
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo; Previous</span></li>
+      {% endif %}
+
+      <li class="page-item disabled">
+        <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      </li>
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}" aria-label="Next">
+            Next &raquo;
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Next &raquo;</span></li>
+      {% endif %}
+    </ul>
+  </nav>
 
 {% elif query %}
   <p>No images found for "{{ query }}". Try a different search.</p>

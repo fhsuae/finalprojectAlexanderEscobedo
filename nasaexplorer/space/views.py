@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Favorite
 from .utils import get_apod, get_epic_images, search_nasa_images
+from django.core.paginator import Paginator
 
 def homepage(request):
     apod_data = get_apod()
@@ -80,7 +81,13 @@ class NasaImageSearchView(View):
     def get(self, request):
         query = request.GET.get("q", "")
         results = search_nasa_images(query) if query else []
-        context = {"query": query, "results": results}
+        paginator = Paginator(results, 20)  # 20 items per page
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context = {
+            "query": query,
+            "page_obj": page_obj,
+        }
         if query and not results:
             context["api_error"] = "No images found or NASA Image Library is currently unavailable."
         return render(request, "space/image_search.html", context)
@@ -89,7 +96,12 @@ class ExoplanetView(View):
     def get(self, request):
         from .utils import get_exoplanets
         planets = get_exoplanets()
-        context = {"planets": planets}
+        paginator = Paginator(planets, 20)  # 20 items per page
+        page_number = request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+        context = {
+            "page_obj": page_obj,
+        }
         if not planets:
             context["api_error"] = "NASA exoplanet data is currently unavailable. Please try again later."
         return render(request, "space/exoplanets.html", context)
