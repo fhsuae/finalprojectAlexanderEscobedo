@@ -71,11 +71,17 @@ class AsteroidView(View):
 
 class EpicGalleryView(View):
     def get(self, request):
+        from .utils import get_epic_images
         images = get_epic_images()
-        context = {"images": images}
+        context = {
+            "images": images,
+            "overall_caption": "Latest EPIC Earth images from NASA.",
+        }
         if not images:
-            context["api_error"] = "NASA EPIC images are currently unavailable. Please try again later."
+            context["api_error"] = "NASA EPIC images are currently unavailable."
         return render(request, "space/epic_gallery.html", context)
+
+
 
 class NasaImageSearchView(View):
     def get(self, request):

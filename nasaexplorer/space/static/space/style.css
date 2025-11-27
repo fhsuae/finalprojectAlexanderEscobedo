@@ -1,0 +1,13 @@
+.thumb-img {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.thumb-img:hover {
+  transform: scale(1.05);
+}
+
+#caption small {
+  color: #666;
+  font-style: italic;
+}

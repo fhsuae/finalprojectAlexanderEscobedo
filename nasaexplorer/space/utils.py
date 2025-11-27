@@ -91,28 +91,41 @@ def get_asteroids():
         return []
 
 
-def get_epic_images():
-    url = f"https://epic.gsfc.nasa.gov/api/natural"
+def get_epic_images(date=None):
+    """
+    Fetch EPIC images. If a date is provided (YYYY-MM-DD), fetch images for that date.
+    Otherwise fetch the most recent available EPIC images.
+    """
     try:
-        response = requests.get(url, timeout=5)
-        response.raise_for_status()
-        data = response.json()
+        if date:
+            url = f"https://epic.gsfc.nasa.gov/api/natural/date/{date}"
+        else:
+            url = "https://epic.gsfc.nasa.gov/api/natural"
+
+        resp = requests.get(url, timeout=10)
+        data = resp.json()
+
+        if not data:
+            return []
+
         images = []
         for item in data:
-            date_str = item["date"].split()[0].replace("-", "/")
-            image_url = (
-                f"https://epic.gsfc.nasa.gov/archive/natural/"
-                f"{date_str}/png/{item['image']}.png"
-            )
+            image_name = item["image"]
+            date_time = item["date"]
+
+            year, month, day = date_time.split(" ")[0].split("-")
+            img_url = f"https://epic.gsfc.nasa.gov/archive/natural/{year}/{month}/{day}/png/{image_name}.png"
+            caption = item.get("caption", "")
+            timestamp = date_time
             images.append({
-                "caption": item["caption"],
-                "date": item["date"],
-                "image_url": image_url,
+                "date_time": timestamp,
+                "caption": caption,
+                "image": img_url,
             })
         return images
-    except (requests.RequestException, ValueError) as e:
-        print(f"Error fetching EPIC images: {e}")
+    except Exception:
         return []
+
 
 def search_nasa_images(query):
     if not query:

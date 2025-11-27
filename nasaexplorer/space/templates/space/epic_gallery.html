@@ -1,40 +1,101 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1>NASA EPIC Earth Images</h1>
+{% block title %}EPIC Earth Gallery{% endblock %}
 
-<p>
-    These images were taken by NASA's EPIC camera onboard the NOAA DSCOVR spacecraft.
-    EPIC provides near-real-time images of the entire sunlit Earth.
-</p>
+{% block content %}
+<h1 class="mb-4">NASA EPIC Earth Image Gallery</h1>
+
+{% if api_error %}
+  <p class="alert alert-warning">{{ api_error }}</p>
+{% endif %}
 
 {% if images %}
-  <div class="row">
-    {% for img in images %}
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm">
-          <img src="{{ img.image_url }}" alt="Earth image taken on {{ img.date }}" class="card-img-top" />
-          <div class="card-body">
-            <p class="card-text"><strong>Date:</strong> {{ img.date }}</p>
+<!-- Slideshow Controls -->
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <button id="prevBtn" class="btn btn-secondary">Previous</button>
+  <button id="playBtn" class="btn btn-success">Play</button>
+  <button id="pauseBtn" class="btn btn-danger">Pause</button>
+  <button id="nextBtn" class="btn btn-secondary">Next</button>
+</div>
 
-            {% if user.is_authenticated %}
-              <form method="post" action="{% url 'space:add_favorite' %}">
-                {% csrf_token %}
-                <input type="hidden" name="image_id" value="{{ img.image_url }}" />
-                <input type="hidden" name="image_title" value="EPIC Earth Image - {{ img.date }}" />
-                <input type="hidden" name="image_url" value="{{ img.image_url }}" />
-                <button type="submit" class="btn btn-sm btn-outline-primary mt-2">
-                  Add to Favorites
-                </button>
-              </form>
-            {% endif %}
+<!-- Slideshow Viewer -->
+<div id="slideshow-container" class="text-center mb-4">
+  <img id="slideshow-img"
+       src="{{ images.0.image }}"
+       class="img-fluid rounded shadow"
+       style="max-height: 500px;">
+  <p id="caption" class="mt-2 text-muted">
+    {{ images.0.caption }}<br>
+    <small>{{ images.0.date_time }}</small>
+  </p>
+</div>
 
-          </div>
+<hr>
+
+<!-- Thumbnail Grid -->
+<div class="row mt-4">
+  {% for item in images %}
+    <div class="col-md-3 mb-4">
+      <div class="card h-100">
+        <img src="{{ item.image }}" class="card-img-top thumb-img" alt="EPIC image">
+        <div class="card-body">
+          <p class="card-text">
+            {{ item.caption|truncatechars:100 }}<br>
+            <small>{{ item.date_time }}</small>
+          </p>
         </div>
       </div>
-    {% endfor %}
-  </div>
-{% else %}
-  <p>No EPIC images found.</p>
+    </div>
+  {% endfor %}
+</div>
 {% endif %}
+
+<!-- JAVASCRIPT FOR SLIDESHOW -->
+<script>
+const images = [
+  {% for item in images %}
+    {
+      url: "{{ item.image }}",
+      caption: "{{ item.caption|escapejs }}",
+      date_time: "{{ item.date_time|escapejs }}"
+    },
+  {% endfor %}
+];
+
+let index = 0;
+let interval = null;
+
+function showImage(i) {
+  const img = document.getElementById("slideshow-img");
+  const caption = document.getElementById("caption");
+
+  img.src = images[i].url;
+  caption.innerHTML = images[i].caption + "<br><small>" + images[i].date_time + "</small>";
+}
+
+document.getElementById("nextBtn").onclick = function () {
+  index = (index + 1) % images.length;
+  showImage(index);
+};
+
+document.getElementById("prevBtn").onclick = function () {
+  index = (index - 1 + images.length) % images.length;
+  showImage(index);
+};
+
+document.getElementById("playBtn").onclick = function () {
+  if (!interval) {
+    interval = setInterval(() => {
+      index = (index + 1) % images.length;
+      showImage(index);
+    }, 3000);
+  }
+};
+
+document.getElementById("pauseBtn").onclick = function () {
+  clearInterval(interval);
+  interval = null;
+};
+</script>
+
 {% endblock %}
