@@ -9,6 +9,8 @@ from .utils import get_apod, get_epic_images, search_nasa_images
 def homepage(request):
     apod_data = get_apod()
     context = {"apod": apod_data}
+    if apod_data is None:
+        context["api_error"] = "NASA APOD data is currently unavailable. Please try again later."
     return render(request, "home.html", context)
 
 def signup(request):
@@ -26,7 +28,6 @@ def signup(request):
 def favorites(request):
     favs = Favorite.objects.filter(user=request.user)
     return render(request, "space/favorites.html", {"favorites": favs})
-
 
 @login_required
 def add_favorite(request):
@@ -54,6 +55,8 @@ class DONKIView(View):
         from .utils import get_donki_events
         events = get_donki_events()
         context = {"events": events}
+        if not events:
+            context["api_error"] = "NASA DONKI data is currently unavailable. Please try again later."
         return render(request, "space/donki.html", context)
 
 class AsteroidView(View):
@@ -61,12 +64,16 @@ class AsteroidView(View):
         from .utils import get_asteroids
         asteroids = get_asteroids()
         context = {"asteroids": asteroids}
+        if not asteroids:
+            context["api_error"] = "NASA asteroid data is currently unavailable. Please try again later."
         return render(request, "space/asteroids.html", context)
 
 class EpicGalleryView(View):
     def get(self, request):
         images = get_epic_images()
         context = {"images": images}
+        if not images:
+            context["api_error"] = "NASA EPIC images are currently unavailable. Please try again later."
         return render(request, "space/epic_gallery.html", context)
 
 class NasaImageSearchView(View):
@@ -74,6 +81,8 @@ class NasaImageSearchView(View):
         query = request.GET.get("q", "")
         results = search_nasa_images(query) if query else []
         context = {"query": query, "results": results}
+        if query and not results:
+            context["api_error"] = "No images found or NASA Image Library is currently unavailable."
         return render(request, "space/image_search.html", context)
 
 class ExoplanetView(View):
@@ -81,4 +90,6 @@ class ExoplanetView(View):
         from .utils import get_exoplanets
         planets = get_exoplanets()
         context = {"planets": planets}
+        if not planets:
+            context["api_error"] = "NASA exoplanet data is currently unavailable. Please try again later."
         return render(request, "space/exoplanets.html", context)

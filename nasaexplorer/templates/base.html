@@ -97,6 +97,12 @@
     </header>
 
     <main class="container mt-4">
+        {% if api_error %}
+          <div class="alert alert-warning" role="alert">
+            {{ api_error }}
+          </div>
+        {% endif %}
+
         {% block content %}
         {% endblock %}
     </main>
