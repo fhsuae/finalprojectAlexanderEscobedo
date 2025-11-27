@@ -18,6 +18,9 @@
                     <th>End</th>
                     <th>Source Location</th>
                     <th>Active Region</th>
+                    {% if user.is_authenticated %}
+                    <th>Favorite</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +33,17 @@
                     <td>{{ e.end }}</td>
                     <td>{{ e.source }}</td>
                     <td>{{ e.active_region }}</td>
+                    {% if user.is_authenticated %}
+                    <td>
+                      <form method="post" action="{% url 'space:add_favorite' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="image_id" value="{{ e.id }}" />
+                        <input type="hidden" name="image_title" value="Solar Flare {{ e.id }} - {{ e.class }}" />
+                        <input type="hidden" name="image_url" value="" />
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Add</button>
+                      </form>
+                    </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

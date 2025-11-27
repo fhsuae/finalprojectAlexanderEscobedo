@@ -16,6 +16,9 @@
                 <th>Planet Radius (Earth = 1)</th>
                 <th>Orbital Period (days)</th>
                 <th>Discovery Method</th>
+                {% if user.is_authenticated %}
+                <th>Favorite</th>
+                {% endif %}
             </tr>
         </thead>
 
@@ -28,10 +31,21 @@
                 <td>{{ planet.radius|default:"—" }}</td>
                 <td>{{ planet.period|default:"—" }}</td>
                 <td>{{ planet.method }}</td>
+                {% if user.is_authenticated %}
+                <td>
+                  <form method="post" action="{% url 'space:add_favorite' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="image_id" value="{{ planet.name }}" />
+                    <input type="hidden" name="image_title" value="Exoplanet: {{ planet.name }}" />
+                    <input type="hidden" name="image_url" value="" />
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Add</button>
+                  </form>
+                </td>
+                {% endif %}
             </tr>
             {% empty %}
             <tr>
-                <td colspan="6" class="text-center">
+                <td colspan="7" class="text-center">
                     No exoplanet data available.
                 </td>
             </tr>

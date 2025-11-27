@@ -12,6 +12,20 @@
       <iframe width="560" height="315" src="{{ apod.url }}" frameborder="0" allowfullscreen></iframe>
     {% endif %}
 
+      {% if user.is_authenticated %}
+  <form method="post" action="{% url 'space:add_favorite' %}" class="mt-3">
+    {% csrf_token %}
+    <input type="hidden" name="image_id" value="{{ apod.url }}" />
+    <input type="hidden" name="image_title" value="{{ apod.title }}" />
+    <input type="hidden" name="image_url" value="{{ apod.url }}" />
+    <button type="submit" class="btn btn-outline-primary">
+      Add to Favorites
+    </button>
+  </form>
+{% endif %}
+
+
+
     <p>{{ apod.explanation }}</p>
   {% else %}
     <p>Sorry, NASA APOD data is not available at the moment.</p>

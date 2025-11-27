@@ -23,7 +23,6 @@ def signup(request):
     return render(request, "registration/signup.html", {"form": form})
 
 @login_required
-@login_required
 def favorites(request):
     favs = Favorite.objects.filter(user=request.user)
     return render(request, "space/favorites.html", {"favorites": favs})
@@ -35,13 +34,20 @@ def add_favorite(request):
         image_id = request.POST.get("image_id")
         image_title = request.POST.get("image_title")
         image_url = request.POST.get("image_url")
-        # Prevent duplicates
-        Favorite.objects.get_or_create(
-            user=request.user,
-            image_id=image_id,
-            defaults={"image_title": image_title, "image_url": image_url},
-        )
+        if image_id and image_url is not None:
+            # Prevent duplicates
+            Favorite.objects.get_or_create(
+                user=request.user,
+                image_id=image_id,
+                defaults={"image_title": image_title, "image_url": image_url},
+            )
     return redirect(request.META.get("HTTP_REFERER", "space:homepage"))
+
+@login_required
+def remove_favorite(request, fav_id):
+    Favorite.objects.filter(id=fav_id, user=request.user).delete()
+    return redirect(request.META.get("HTTP_REFERER", "space:favorites"))
+
 
 class DONKIView(View):
     def get(self, request):

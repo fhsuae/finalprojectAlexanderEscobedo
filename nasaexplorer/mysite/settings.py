@@ -137,6 +137,7 @@ CACHES = {
 # Cache timeout for APOD in seconds
 APOD_CACHE_TIMEOUT = 6 * 60 * 60
 
-LOGIN_REDIRECT_URL = '/space/'
-LOGOUT_REDIRECT_URL = '/space/login/'
+LOGIN_REDIRECT_URL = 'space:homepage'
+LOGOUT_REDIRECT_URL = 'space:login'
+
 
