@@ -28,6 +28,15 @@
     {{ images.0.caption }}<br>
     <small>{{ images.0.date_time }}</small>
   </p>
+
+  <!-- Add to Favorites button for slideshow image -->
+  <form method="post" action="{% url 'space:add_favorite' %}">
+    {% csrf_token %}
+    <input type="hidden" name="image_id" value="{{ images.0.date_time|slugify }}">
+    <input type="hidden" name="image_title" value="{{ images.0.caption }}">
+    <input type="hidden" name="image_url" value="{{ images.0.image }}">
+    <button type="submit" class="btn btn-primary">Add to Favorites</button>
+  </form>
 </div>
 
 <hr>
@@ -43,6 +52,15 @@
             {{ item.caption|truncatechars:100 }}<br>
             <small>{{ item.date_time }}</small>
           </p>
+
+          <!--Favorites button -->
+          <form method="post" action="{% url 'space:add_favorite' %}">
+            {% csrf_token %}
+            <input type="hidden" name="image_id" value="{{ item.date_time|slugify }}">
+            <input type="hidden" name="image_title" value="{{ item.caption }}">
+            <input type="hidden" name="image_url" value="{{ item.image }}">
+            <button type="submit" class="btn btn-sm btn-outline-primary">Add to Favorites</button>
+          </form>
         </div>
       </div>
     </div>
@@ -50,7 +68,7 @@
 </div>
 {% endif %}
 
-<!-- JAVASCRIPT FOR SLIDESHOW -->
+<!-- Slideshow -->
 <script>
 const images = [
   {% for item in images %}
@@ -71,6 +89,13 @@ function showImage(i) {
 
   img.src = images[i].url;
   caption.innerHTML = images[i].caption + "<br><small>" + images[i].date_time + "</small>";
+
+  const favForm = document.querySelector("#slideshow-container form");
+  if (favForm) {
+    favForm.querySelector('input[name="image_id"]').value = images[i].date_time.replace(/\s+/g, '-').toLowerCase();
+    favForm.querySelector('input[name="image_title"]').value = images[i].caption;
+    favForm.querySelector('input[name="image_url"]').value = images[i].url;
+  }
 }
 
 document.getElementById("nextBtn").onclick = function () {
