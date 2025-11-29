@@ -5,18 +5,19 @@
  
 # Project Title
  
-Final Project NASA Space Image Explorer  
+#### Final Project NASA Space Image Explorer  
 ## Description
  
 NASA Space Image Explorer is a Django web application using SQLite and Bootstrap that provides users with easy access to current space images and scientific data from NASA’s public APIs.
 
 Key features include:
 
-* Home page displaying the Astronomy Picture of the Day with detailed descriptions
-* Gallery page with searchable Mars Rover photos by rover name and date
-* Ability to view high-quality images with scientific context
-* Responsive design using Bootstrap for mobile and desktop compatibility
-* About page explaining the educational purpose of the site
+* Browse NASA’s Astronomy Picture of the Day with detailed info.
+* Search NASA’s image library by keyword.
+* Explore Earth images via EPIC Gallery with slideshow and favorites.
+* View solar flare data on the DONKI Space Weather page.
+* Track near-Earth asteroids and known exoplanets.
+* Save favorites across the app with user accounts.
 
 This project offers a clean, user-friendly interface for space enthusiasts and learners to explore NASA’s latest space imagery and mission information all in one place.
 
@@ -29,7 +30,6 @@ Before running the project, ensure you have:
 * Python 3.10+ installed
 * Required Python packages (install via requirements.txt)
 * SQLite (bundled with Python)
-* Requests library (pip install requests) for API calls
 * Bootstrap 5 for responsive UI (included via CDN or local files)
 * pip package manager
  
@@ -38,7 +38,7 @@ Before running the project, ensure you have:
 1. Clone the repository:
 
 ```
-git clone https://github.com/fhsuae/miniproject4AlexanderEscobedo.git
+git clone https://github.com/fhsuae/finalprojectAlexanderEscobedo.git
 ```
 
 2. Create and activate a virtual environment:
@@ -61,6 +61,7 @@ pip install -r requirements.txt
 ```
  
 ### Executing program
+
 #### Initialize the database:
 
 Ensure your working directory is the main Django project folder (nasaexplorer/) 
@@ -108,7 +109,7 @@ To access the Django admin dashboard:
 http://127.0.0.1:8000/admin/
 ```
 
-2. Log in using the credentials from:
+2. Log in using the credentials created with:
 
 ```
 python manage.py createsuperuser
@@ -116,9 +117,9 @@ python manage.py createsuperuser
 
 You can manage:
 
-* example 1 
-* example 2 
-* example 3
+*  User favorites (saved NASA images by logged-in users)
+*  User accounts (admins only)
+
 
 ### Using an IDE (Optional)
 
@@ -144,12 +145,16 @@ python manage.py runserver 8001
 
 ### Project Pages 
 
-* **Home Page**: List what it does
-* **example 1**: List what it does
-* **example 2**: List what it does
-* **example 3**: Lit what it does
-* **example 4**: List wat it does
-* **Login / Signup**: List what it doe
+* **Home Page**: Displays NASA's Astronomy Picture of the Day with detailed explanation and image.
+* **EPIC Gallery**: Gallery of Earth images from NASA's DSCOVR satellite with slideshow and ability to favorite images.
+* **Image Search**: Allows users to search NASA's Image and Video Library API for space images by keyword.
+* **DONKI Space Weather**: Lists recent solar flare events with summary information.
+* **Asteroids Page**: Shows near-Earth asteroid data including sizes, distances, and close approach dates.
+* **Exoplanets Page**: Displays information about known exoplanets discovered to date.
+* **Favorites Page**: Logged-in users can view and manage their favorite images from across the app.
+* **Login**: User login page.
+* **Signup**: New user registration page.
+* **Logout**: Logs out the current user.
 
  
 ## Authors
@@ -167,7 +172,5 @@ Alexander Escobedo
 * [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/getting-started/download/)
 * [The Official Django Tutorial](https://docs.djangoproject.com/en/5.2/intro/tutorial01/) - Project structure adapted from this tutorial (Django version 5.2)
 * [SQLite Documentation](https://sqlite.org/docs.html)
+* [NASA Open APIs Documentation](https://api.nasa.gov/)
 
---- list  all the nasa APIs used and specific bootstrap links
-* * [SQLite Documentation](https://sqlite.org/docs.html) - list
-* * [SQLite Documentation](https://sqlite.org/docs.html)
