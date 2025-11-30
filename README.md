@@ -59,7 +59,45 @@ source venv/bin/activate
 ```
 pip install -r requirements.txt
 ```
- 
+#### Environment Setup
+
+
+This project uses a NASA API key to access NASA’s public APIs. To keep your API key secure and avoid sharing it publicly, follow these steps:
+
+1. **Get a NASA API Key:**  
+   Visit [https://api.nasa.gov](https://api.nasa.gov) and sign up for a free API key.
+
+2. **Create a `.env` File:**  
+   In the root directory of the project (where `manage.py` is located), create a new file named `.env`.
+
+3. **Add Your API Key to `.env`:**  
+   Open `.env` and add the following line, replacing `your_actual_nasa_api_key` with the key you received:
+
+```
+NASA_API_KEY=your_actual_nasa_api_key
+```
+
+4. **Use the `.env.example` as a Template (Optional):**  
+A `.env.example` file is included in the repository with the following content:
+
+```
+NASA_API_KEY=your_actual_nasa_api_key
+```
+
+You can copy it to `.env` and update the value:
+
+```
+cp .env.example .env
+```
+
+
+5. **Keep `.env` Private:**  
+The `.env` file is excluded from version control by `.gitignore` to keep your API key private.
+
+The project uses `python-dotenv` to load the `.env` variables automatically.
+
+
+
 ### Executing program
 
 #### Initialize the database:
