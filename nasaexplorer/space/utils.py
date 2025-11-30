@@ -1,7 +1,8 @@
+import os
 import requests
 from datetime import datetime
 
-NASA_API_KEY = "lsOOvgQsDAa6GCDmn52K7arK4IjzjccWz5GzhhSE"
+NASA_API_KEY = os.getenv("NASA_API_KEY")
 
 def get_apod():
     url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_API_KEY}"
@@ -197,4 +198,3 @@ def get_exoplanets(limit=50):
     except Exception as e:
         print(f"Error fetching Exoplanet data: {e}")
         return []
-

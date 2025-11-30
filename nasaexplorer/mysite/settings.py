@@ -10,9 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+load_dotenv()  # Load environment variables from .env file
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -139,5 +142,8 @@ APOD_CACHE_TIMEOUT = 6 * 60 * 60
 
 LOGIN_REDIRECT_URL = 'space:homepage'
 LOGOUT_REDIRECT_URL = 'space:login'
+
+NASA_API_KEY = os.getenv("NASA_API_KEY")
+
 
 
