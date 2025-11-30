@@ -70,11 +70,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'space:favorites' %}">My Favorites</a>
                         </li>
-                        <li class="nav-item">
-                            <!-- Logout button -->
-                            <form method="post" action="{% url 'space:logout' %}" style="display:inline;">
+                        <li class="nav-item d-flex align-items-center">
+                            <form method="post" action="{% url 'space:logout' %}" class="m-0 p-0">
                                 {% csrf_token %}
-                                <button type="submit" class="nav-link btn btn-link" style="padding: 0; border: none; background: none;">
+                                <button type="submit" class="btn btn-link nav-link p-0 m-0 align-baseline" style="cursor:pointer;">
                                     Logout
                                 </button>
                             </form>
