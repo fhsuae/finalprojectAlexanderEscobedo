@@ -7,6 +7,7 @@
 <p class="text-muted">Showing the most recently cataloged exoplanets.</p>
 
 <div class="table-responsive mt-4">
+    <!-- Exoplanets data table -->
     <table class="table table-striped table-hover">
         <thead class="table-dark">
             <tr>
@@ -32,6 +33,7 @@
                 <td>{{ planet.period|default:"—" }}</td>
                 <td>{{ planet.method }}</td>
                 {% if user.is_authenticated %}
+                <!-- Add exoplanet to favorites -->
                 <td>
                   <form method="post" action="{% url 'space:add_favorite' %}">
                     {% csrf_token %}

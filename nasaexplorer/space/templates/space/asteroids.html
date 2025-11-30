@@ -11,6 +11,7 @@
 </p>
 
 {% if asteroids %}
+<!-- Asteroids data table -->
 <table class="table table-striped table-bordered">
     <thead class="table-dark">
         <tr>
@@ -44,6 +45,7 @@
             </td>
             <td>{{ a.orbiting_body }}</td>
             {% if user.is_authenticated %}
+            <!-- Add asteroid to favorites form -->
             <td>
               <form method="post" action="{% url 'space:add_favorite' %}">
                 {% csrf_token %}

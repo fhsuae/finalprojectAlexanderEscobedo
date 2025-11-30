@@ -1,14 +1,24 @@
+### INF601 - Advanced Programming in Python
+### Alexander Escobedo
+### Final Project Nasa Explorer
+
 import os
 import requests
 from datetime import datetime
 
+# Get NASA API key from environment variables for secure access
 NASA_API_KEY = os.getenv("NASA_API_KEY")
 
 def get_apod():
+    """
+    Fetch Astronomy Picture of the Day (APOD) data from NASA API.
+    Returns a dictionary with title, date, explanation, URL, and media type.
+    Returns None if there is an error.
+    """
     url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_API_KEY}"
     try:
         response = requests.get(url, timeout=5)
-        response.raise_for_status()
+        response.raise_for_status()  # Raise exception for HTTP errors
         data = response.json()
         return {
             "title": data.get("title"),
@@ -24,7 +34,9 @@ def get_apod():
 
 def get_donki_events():
     """
-    Get recent solar flares from NASA DONKI Space Weather API.
+    Fetch recent solar flare events from NASA DONKI Space Weather API.
+    Returns a list of dictionaries containing solar flare details.
+    Returns an empty list on failure.
     """
     url = f"https://api.nasa.gov/DONKI/FLR?api_key={NASA_API_KEY}"
 
@@ -34,7 +46,7 @@ def get_donki_events():
         data = response.json()
 
         events = []
-        for item in data[:30]:  # limit for UI sanity
+        for item in data[:30]:  # Limit to 30 for UI performance
             events.append({
                 "id": item.get("flrID"),
                 "class": item.get("classType"),
@@ -54,7 +66,9 @@ def get_donki_events():
 
 def get_asteroids():
     """
-    Fetch a list of near-Earth asteroids approaching Earth today.
+    Fetch near-Earth asteroids data for today from NASA NeoWs API.
+    Returns a list of asteroid dictionaries with key data.
+    Returns an empty list if the API call fails.
     """
     url = (
         f"https://api.nasa.gov/neo/rest/v1/feed/today?detailed=true&api_key={NASA_API_KEY}"
@@ -65,12 +79,12 @@ def get_asteroids():
         response.raise_for_status()
         data = response.json()
 
-        # NeoWs returns: near_earth_objects: { "YYYY-MM-DD": [asteroids...] }
+        # Extract date key for the near_earth_objects dictionary
         date_key = list(data["near_earth_objects"].keys())[0]
         raw_asteroids = data["near_earth_objects"][date_key]
 
         asteroids = []
-        for obj in raw_asteroids[:40]:  # limit for readability
+        for obj in raw_asteroids[:40]:  # Limit to 40 for readability
             approach = obj["close_approach_data"][0]
 
             asteroids.append({
@@ -94,8 +108,10 @@ def get_asteroids():
 
 def get_epic_images(date=None):
     """
-    Fetch EPIC images. If a date is provided (YYYY-MM-DD), fetch images for that date.
-    Otherwise fetch the most recent available EPIC images.
+    Fetch NASA EPIC Earth images.
+    If date (YYYY-MM-DD) is provided, fetch images for that date.
+    Otherwise, fetch most recent images.
+    Returns a list of image dictionaries or empty list on failure.
     """
     try:
         if date:
@@ -114,6 +130,7 @@ def get_epic_images(date=None):
             image_name = item["image"]
             date_time = item["date"]
 
+            # Parse date to build image URL
             year, month, day = date_time.split(" ")[0].split("-")
             img_url = f"https://epic.gsfc.nasa.gov/archive/natural/{year}/{month}/{day}/png/{image_name}.png"
             caption = item.get("caption", "")
@@ -124,11 +141,17 @@ def get_epic_images(date=None):
                 "image": img_url,
             })
         return images
-    except Exception:
+    except Exception as e:
+        print(f"Error fetching EPIC images: {e}")
         return []
 
 
 def search_nasa_images(query):
+    """
+    Search NASA's Image and Video Library API for images matching the query.
+    Returns a list of image metadata dictionaries.
+    Returns an empty list if query is empty or on failure.
+    """
     if not query:
         return []
 
@@ -167,9 +190,12 @@ def search_nasa_images(query):
         print(f"Error searching NASA Image Library: {e}")
         return []
 
+
 def get_exoplanets(limit=50):
     """
-    Fetches basic exoplanet data from NASA’s Exoplanet Archive API.
+    Fetch basic exoplanet data from NASA's Exoplanet Archive API.
+    Returns a list of planet dictionaries, limited to 'limit' items.
+    Returns an empty list on failure.
     """
     url = (
         "https://exoplanetarchive.ipac.caltech.edu/TAP/sync?query="
@@ -183,7 +209,7 @@ def get_exoplanets(limit=50):
         data = response.json()
 
         planets = []
-        for item in data[:limit]:  # limit results for performance
+        for item in data[:limit]:  # Limit results for performance
             planets.append({
                 "name": item.get("pl_name"),
                 "host": item.get("hostname"),

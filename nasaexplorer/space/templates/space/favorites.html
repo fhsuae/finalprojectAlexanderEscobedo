@@ -5,6 +5,7 @@
 <h2>My Favorite Images</h2>
 
 {% if favorites %}
+  <!-- List of favorite images -->
   <div class="row">
     {% for fav in favorites %}
       <div class="col-md-4 mb-3">
@@ -14,6 +15,7 @@
           {% endif %}
           <div class="card-body">
             <h5 class="card-title">{{ fav.image_title }}</h5>
+            <!-- Remove from favorites button -->
             <form method="post" action="{% url 'space:remove_favorite' fav.id %}">
               {% csrf_token %}
               <button type="submit" class="btn btn-sm btn-danger mt-2">Remove</button>

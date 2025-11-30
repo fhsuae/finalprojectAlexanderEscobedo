@@ -13,11 +13,13 @@
 
 <body>
     <header>
+        <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
             <a class="navbar-brand fw-bold" href="{% url 'space:homepage' %}">
                 NASA Explorer
             </a>
 
+            <!-- Responsive navbar toggler -->
             <button
                 class="navbar-toggler"
                 type="button"
@@ -30,8 +32,10 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!-- Navbar links -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                    <!-- Main navigation links -->
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'space:homepage' %}">Home</a>
                     </li>
@@ -62,10 +66,12 @@
 
                 <ul class="navbar-nav ms-auto">
                     {% if user.is_authenticated %}
+                        <!-- Links for logged in users -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'space:favorites' %}">My Favorites</a>
                         </li>
                         <li class="nav-item">
+                            <!-- Logout button -->
                             <form method="post" action="{% url 'space:logout' %}" style="display:inline;">
                                 {% csrf_token %}
                                 <button type="submit" class="nav-link btn btn-link" style="padding: 0; border: none; background: none;">
@@ -74,6 +80,7 @@
                             </form>
                         </li>
                     {% else %}
+                        <!-- Links for anonymous users -->
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'space:login' %}">Login</a>
                         </li>
@@ -83,7 +90,7 @@
                     {% endif %}
                 </ul>
 
-                <!-- Info Modal Button -->
+                <!-- Info modal trigger button -->
                 <button
                     type="button"
                     class="btn btn-primary btn-sm ms-3"
@@ -97,17 +104,19 @@
     </header>
 
     <main class="container mt-4">
+        <!-- Display API error messages if any -->
         {% if api_error %}
           <div class="alert alert-warning" role="alert">
             {{ api_error }}
           </div>
         {% endif %}
 
+        <!-- Main page content -->
         {% block content %}
         {% endblock %}
     </main>
 
-    <!-- Info Modal -->
+    <!-- Info Modal with project description -->
     <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -136,7 +145,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS bundle -->
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     ></script>

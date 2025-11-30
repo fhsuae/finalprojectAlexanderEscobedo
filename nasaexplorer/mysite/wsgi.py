@@ -1,3 +1,7 @@
+### INF601 - Advanced Programming in Python
+### Alexander Escobedo
+### Final Project Nasa Explorer
+
 """
 WSGI config for mysite project.
 

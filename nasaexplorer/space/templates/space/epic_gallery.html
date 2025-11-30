@@ -6,11 +6,12 @@
 <h1 class="mb-4">NASA EPIC Earth Image Gallery</h1>
 
 {% if api_error %}
+  <!-- Display API error messages -->
   <p class="alert alert-warning">{{ api_error }}</p>
 {% endif %}
 
 {% if images %}
-<!-- Slideshow Controls -->
+<!-- Slideshow controls -->
 <div class="d-flex justify-content-between align-items-center mb-3">
   <button id="prevBtn" class="btn btn-secondary">Previous</button>
   <button id="playBtn" class="btn btn-success">Play</button>
@@ -18,7 +19,7 @@
   <button id="nextBtn" class="btn btn-secondary">Next</button>
 </div>
 
-<!-- Slideshow Viewer -->
+<!-- Slideshow display -->
 <div id="slideshow-container" class="text-center mb-4">
   <img id="slideshow-img"
        src="{{ images.0.image }}"
@@ -29,7 +30,7 @@
     <small>{{ images.0.date_time }}</small>
   </p>
 
-  <!-- Add to Favorites button for slideshow image -->
+  <!-- Add current slideshow image to favorites -->
   <form method="post" action="{% url 'space:add_favorite' %}">
     {% csrf_token %}
     <input type="hidden" name="image_id" value="{{ images.0.date_time|slugify }}">
@@ -41,7 +42,7 @@
 
 <hr>
 
-<!-- Thumbnail Grid -->
+<!-- Thumbnail grid of all images -->
 <div class="row mt-4">
   {% for item in images %}
     <div class="col-md-3 mb-4">
@@ -53,7 +54,7 @@
             <small>{{ item.date_time }}</small>
           </p>
 
-          <!--Favorites button -->
+          <!-- Add image to favorites button -->
           <form method="post" action="{% url 'space:add_favorite' %}">
             {% csrf_token %}
             <input type="hidden" name="image_id" value="{{ item.date_time|slugify }}">
@@ -68,7 +69,7 @@
 </div>
 {% endif %}
 
-<!-- Slideshow -->
+<!-- Slideshow JavaScript controls -->
 <script>
 const images = [
   {% for item in images %}
