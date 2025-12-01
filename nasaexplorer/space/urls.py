@@ -45,4 +45,7 @@ urlpatterns = [
 
     # Endpoint to remove a favorite image by its id
     path('remove-favorite/<int:fav_id>/', views.remove_favorite, name='remove_favorite'),
+
+    # Endpoint to download a favorite image by its id
+    path('download-favorite/<int:fav_id>/', views.download_favorite, name='download_favorite'),
 ]

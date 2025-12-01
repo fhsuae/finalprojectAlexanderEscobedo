@@ -62,41 +62,51 @@ pip install -r requirements.txt
 #### Environment Setup
 
 
-This project uses a NASA API key to access NASA’s public APIs. To keep your API key secure and avoid sharing it publicly, follow these steps:
+This project requires a NASA API key to access NASA’s public data APIs. To keep your key safe and ensure the app works correctly, follow these steps carefully:
 
 1. **Get a NASA API Key:**  
-   Visit [https://api.nasa.gov](https://api.nasa.gov) and sign up for a free API key.
+
+>Visit https://api.nasa.gov and sign up for a free API key. You will receive a string of letters and numbers — this is your unique key.
 
 2. **Create a `.env` File:**  
-   In the root directory of the project (where `manage.py` is located), create a new file named `.env`.
+
+>In the main project folder (the same folder where you see the file manage.py), create a new text file named `.env`.
 
 3. **Add Your API Key to `.env`:**  
-   Open `.env` and add the following line, replacing `your_actual_nasa_api_key` with the key you received:
+
+>Open `.env` and add the following line, replacing `your_actual_nasa_api_key` with the key you received:
 
 ```
 NASA_API_KEY=your_actual_nasa_api_key
 ```
 
 4. **Use the `.env.example` as a Template (Optional):**  
-A `.env.example` file is included in the repository with the following content:
 
-```
-NASA_API_KEY=your_actual_nasa_api_key
-```
+>There's a file named .env.example included in this project that shows the format of the .env file. 
+You can copy it and rename it to .env to save time:
 
-You can copy it to `.env` and update the value:
+macOS/Linux (in your terminal):
 
 ```
 cp .env.example .env
 ```
+Windows (in PowerShell):
+
+```
+copy .env.example .env
+
+```
+
+>Then open .env and replace the placeholder with your actual API key.
 
 
-5. **Keep `.env` Private:**  
-The `.env` file is excluded from version control by `.gitignore` to keep your API key private.
+5. **Why Use a `.env` File?**
 
-The project uses `python-dotenv` to load the `.env` variables automatically.
+> The `.env` file is not included in the project’s public code repository (it’s listed in .gitignore), so your API key stays private and won’t be shared accidentally.
 
+6. **Make Sure to Activate Your Virtual Environment Before Running the App:**
 
+> When you start working, remember to activate your virtual environment (see “Installing” section). This ensures the project can load all required packages including python-dotenv.
 
 ### Executing program
 
@@ -189,7 +199,7 @@ python manage.py runserver 8001
 * **DONKI Space Weather**: Lists recent solar flare events with summary information.
 * **Asteroids Page**: Shows near-Earth asteroid data including sizes, distances, and close approach dates.
 * **Exoplanets Page**: Displays information about known exoplanets discovered to date.
-* **Favorites Page**: Logged-in users can view and manage their favorite images from across the app.
+* **Favorites Page**: Logged-in users can view, manage, and download their favorite NASA images.
 * **Login**: User login page.
 * **Signup**: New user registration page.
 * **Logout**: Logs out the current user.

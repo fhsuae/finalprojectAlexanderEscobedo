@@ -20,6 +20,11 @@
               {% csrf_token %}
               <button type="submit" class="btn btn-sm btn-danger mt-2">Remove</button>
             </form>
+
+            <!-- Download favorite image button -->
+            <a href="{% url 'space:download_favorite' fav.id %}" class="btn btn-sm btn-primary mt-2" download>
+              Download
+            </a>
           </div>
         </div>
       </div>

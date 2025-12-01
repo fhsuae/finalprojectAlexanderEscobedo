@@ -7,10 +7,12 @@ from django.views import View
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages  # Added import for messaging
+from django.contrib import messages  
 from .models import Favorite
 from .utils import get_apod, get_epic_images, search_nasa_images
 from django.core.paginator import Paginator
+from django.http import HttpResponse, Http404
+import requests
 
 
 def homepage(request):
@@ -93,6 +95,35 @@ def remove_favorite(request, fav_id):
     Favorite.objects.filter(id=fav_id, user=request.user).delete()
     return redirect(request.META.get("HTTP_REFERER", "space:favorites"))
 
+@login_required
+def download_favorite(request, fav_id):
+    """
+    Allow users to download their favorite image.
+    Fetches the image URL and returns it as a downloadable response.
+    """
+    try:
+        fav = Favorite.objects.get(id=fav_id, user=request.user)
+    except Favorite.DoesNotExist:
+        raise Http404("Favorite image not found.")
+
+    # Fetch the image content from URL
+    try:
+        response = requests.get(fav.image_url, stream=True, timeout=10)
+        response.raise_for_status()
+    except requests.RequestException:
+        # Redirect back with an error message if download fails
+        from django.contrib import messages
+        messages.error(request, "Failed to download image. Please try again later.")
+        return redirect(request.META.get("HTTP_REFERER", "space:favorites"))
+
+    # Prepare response with appropriate headers to trigger download
+    filename = fav.image_url.split("/")[-1] or "favorite_image.png"
+    content_type = response.headers.get("Content-Type", "application/octet-stream")
+
+    response_http = HttpResponse(response.content, content_type=content_type)
+    response_http['Content-Disposition'] = f'attachment; filename="{filename}"'
+
+    return response_http
 
 class DONKIView(View):
     """
