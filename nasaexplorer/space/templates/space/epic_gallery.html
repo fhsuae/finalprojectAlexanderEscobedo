@@ -30,6 +30,7 @@
     <small>{{ images.0.date_time }}</small>
   </p>
 
+  {% if user.is_authenticated %}
   <!-- Add current slideshow image to favorites -->
   <form method="post" action="{% url 'space:add_favorite' %}">
     {% csrf_token %}
@@ -38,6 +39,7 @@
     <input type="hidden" name="image_url" value="{{ images.0.image }}">
     <button type="submit" class="btn btn-primary">Add to Favorites</button>
   </form>
+  {% endif %}
 </div>
 
 <hr>
@@ -54,6 +56,7 @@
             <small>{{ item.date_time }}</small>
           </p>
 
+          {% if user.is_authenticated %}
           <!-- Add image to favorites button -->
           <form method="post" action="{% url 'space:add_favorite' %}">
             {% csrf_token %}
@@ -62,6 +65,7 @@
             <input type="hidden" name="image_url" value="{{ item.image }}">
             <button type="submit" class="btn btn-sm btn-outline-primary">Add to Favorites</button>
           </form>
+          {% endif %}
         </div>
       </div>
     </div>

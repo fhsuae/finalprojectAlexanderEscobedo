@@ -22,9 +22,7 @@
             <th>Miss Distance (km)</th>
             <th>Hazardous</th>
             <th>Orbiting Body</th>
-            {% if user.is_authenticated %}
-            <th>Favorite</th>
-            {% endif %}
+            <!-- Favorites removed -->
         </tr>
     </thead>
 
@@ -44,18 +42,7 @@
                 {% endif %}
             </td>
             <td>{{ a.orbiting_body }}</td>
-            {% if user.is_authenticated %}
-            <!-- Add asteroid to favorites form -->
-            <td>
-              <form method="post" action="{% url 'space:add_favorite' %}">
-                {% csrf_token %}
-                <input type="hidden" name="image_id" value="{{ a.name }}" />
-                <input type="hidden" name="image_title" value="Asteroid: {{ a.name }}" />
-                <input type="hidden" name="image_url" value="" />
-                <button type="submit" class="btn btn-sm btn-outline-primary">Add</button>
-              </form>
-            </td>
-            {% endif %}
+            <!-- Favorites removed -->
         </tr>
     {% endfor %}
     </tbody>
