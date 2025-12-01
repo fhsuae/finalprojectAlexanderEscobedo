@@ -17,4 +17,7 @@ class Favorite(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # Timestamp when favorited
 
     def __str__(self):
+        """
+        Return a readable string representation of the Favorite instance.
+        """
         return f"{self.user.username} - {self.image_title}"
