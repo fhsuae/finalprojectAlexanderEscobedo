@@ -7,6 +7,7 @@ from django.views import View
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages  # Added import for messaging
 from .models import Favorite
 from .utils import get_apod, get_epic_images, search_nasa_images
 from django.core.paginator import Paginator
@@ -59,6 +60,7 @@ def add_favorite(request):
     """
     Add a NASA image to the logged-in user's favorites.
     Prevent duplicate favorites by checking if the entry already exists.
+    Show success or failure message.
     """
     if request.method == "POST":
         image_id = request.POST.get("image_id")
@@ -66,12 +68,18 @@ def add_favorite(request):
         image_url = request.POST.get("image_url")
 
         if image_id and image_url:
-            # get_or_create prevents duplicates by checking existence before insertion
-            Favorite.objects.get_or_create(
+            favorite, created = Favorite.objects.get_or_create(
                 user=request.user,
                 image_id=image_id,
                 defaults={"image_title": image_title, "image_url": image_url},
             )
+            if created:
+                messages.success(request, "Image successfully added to favorites.")
+            else:
+                messages.info(request, "This image is already in your favorites.")
+        else:
+            messages.error(request, "Failed to save image. Missing image data.")
+
     # Redirect back to referring page or homepage if referrer missing
     return redirect(request.META.get("HTTP_REFERER", "space:homepage"))
 
